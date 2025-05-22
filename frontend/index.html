@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html> 
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Wadau Experience</title>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </head>
+    <body>
+        <header>
+            <p>Wadau Experience</p>
+            <button id="my-tray">My tray <i class="fa-solid fa-bowl-food"></i></button>
+        </header>
+        
+        <div class="our-special">
+            <h2>Our Special</h2>
+            <div class="special-item">
+                <div id="special-item-content"></div>
+                <button id="view-button" class="view-button">View</button>
+            </div>
+        </div>
+        
+        <section class="menu">
+            <h2>Menu</h2>
+            <table>
+                <tr><td>
+                    <div class="menu-item" id="Platters">
+                        <p>Platters</p>
+                        <button id="Platters-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </td></tr>
+                <tr><td>
+                    <div class="menu-item" id="Main-course">
+                        <p>Main course</p>
+                        <button id="Main-course-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div> 
+                </td></tr>
+                <tr><td>
+                    <div class="menu-item" id="Snacks">
+                        <p>Snacks</p>
+                        <button id="Snacks-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </td></tr>
+                <tr><td>
+                    <div class="menu-item" id="Beverages">
+                        <p>Beverages</p>
+                        <button id="Beverages-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </td></tr>
+            </table>
+        </section>
+        
+        <footer>
+            <p>for more inquiries call 0722861224</p>
+        </footer>
+
+        <script src="scripts/menu-data.js"></script>
+        <script src="scripts/cart.js"></script>
+        <script src="scripts/main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tray - Wadau Experience</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <button id="back-button" class="back-button"><i class="fa-solid fa-arrow-left"></i> Back</button>
+        <button id="my-tray">My tray <i class="fa-solid fa-bowl-food"></i></button>
+    </header>
+    
+    <main class="tray-container">
+        <div class="tray-header">
+            <img src="images/chef.png" alt="chef" class="chef-icon">
+            <div>
+            <h2>Tray Selection</h2>
+            <p id="items-summary">Your selected items will appear here</p>
+            </div>
+            <div class="total-price-display">
+                <span>Total: </span>
+                <span id="total-price">KSh 0.00</span>
+            </div>
+            <button id="checkout-button" class="checkout-button">Checkout</button>
+        </div>
+        
+        <div id="tray-items" class="tray-items-list"></div>
+    </main>
+
+    <script src="scripts/menu-data.js"></script>
+    <script src="scripts/cart.js"></script>
+    <script src="scripts/mytray.js"></script>
+</body>
+</html>
