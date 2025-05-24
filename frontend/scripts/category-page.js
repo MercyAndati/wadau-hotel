@@ -1,3 +1,17 @@
+const SPECIAL_ITEMS = {
+  'main-course': {
+    id: 'mbuzi-choma',
+    name: 'Mbuzi Choma',
+    description: 'Tender, juicy goat marinated in select spices and grilled to perfection.',
+    image: 'images/goatImage.png'
+  },
+  'beverages': {
+    id: 'fresh-juice',
+    name: 'Fresh Juice',
+    description: 'Refreshing seasonal fruit juices made from fresh ingredients.',
+    image: 'images/juice.png'
+  }
+};
 // Carousel navigation functions
 function navigateCarousel(direction) {
   currentCarouselIndex = (currentCarouselIndex + direction + carouselItems.length) % carouselItems.length;
@@ -105,12 +119,15 @@ function initializePage() {
   }
 }
 
-// Update the loadCategoryContent function in category-page.js
+// Update the loadCategoryContent function
 function loadCategoryContent(categoryId) {
   const category = findCategory(categoryId);
   if (!category) return showError("Category not found");
 
   const container = document.getElementById("category-content");
+
+  // Check if this is a category with a special item
+  const specialItem = SPECIAL_ITEMS[categoryId];
 
   if (category.items && category.items.length > 0) {
     // Set up carousel items
@@ -155,27 +172,54 @@ function loadCategoryContent(categoryId) {
     loadFontAwesome();
     
   } else if (category.subcategories) {
-    // Existing subcategory display
-    container.innerHTML = `
-      <section class="highlight">
-        <img src="images/placeholder-goat.jpg" alt="${category.name}" class="highlight-img">
-        <div class="highlight-details">
-          <h2>${category.name}</h2>
-          <p>${category.description || "Choose from our selection of categories."}</p>
-        </div>
-      </section>
-      <nav class="menu-list">
-        <div class="menu-title">${category.name}</div>
-        <hr class="full-width-line">
-        ${category.subcategories.map(subcategory => `
-          <div class="menu-item" onclick="goToSubcategory('${categoryId}', '${subcategory.id}')">
-            <span>${subcategory.name}</span>
-            <img src="images/right-arrow.png" alt="Arrow" class="menu-icon">
+    // Check if we should show a special item
+    if (specialItem) {
+      container.innerHTML = `
+        <section class="highlight">
+          <img src="${specialItem.image}" alt="${specialItem.name}" class="highlight-img">
+          <div class="highlight-details">
+            <h2>${specialItem.name}</h2>
+            <p>${specialItem.description}</p>
+            <button class="button" onclick="goToSubcategory('${categoryId}', '${specialItem.id}')">
+              View
+            </button>
           </div>
+        </section>
+        <nav class="menu-list">
+          <div class="menu-title">${category.name}</div>
           <hr class="full-width-line">
-        `).join('')}
-      </nav>
-    `;
+          ${category.subcategories.map(subcategory => `
+            <div class="menu-item" onclick="goToSubcategory('${categoryId}', '${subcategory.id}')">
+              <span>${subcategory.name}</span>
+              <img src="images/right-arrow.png" alt="Arrow" class="menu-icon">
+            </div>
+            <hr class="full-width-line">
+          `).join('')}
+        </nav>
+      `;
+    } else {
+      // Regular subcategory display
+      container.innerHTML = `
+        <section class="highlight">
+          <img src="images/placeholder-goat.jpg" alt="${category.name}" class="highlight-img">
+          <div class="highlight-details">
+            <h2>${category.name}</h2>
+            <p>${category.description || "Choose from our selection of categories."}</p>
+          </div>
+        </section>
+        <nav class="menu-list">
+          <div class="menu-title">${category.name}</div>
+          <hr class="full-width-line">
+          ${category.subcategories.map(subcategory => `
+            <div class="menu-item" onclick="goToSubcategory('${categoryId}', '${subcategory.id}')">
+              <span>${subcategory.name}</span>
+              <img src="images/right-arrow.png" alt="Arrow" class="menu-icon">
+            </div>
+            <hr class="full-width-line">
+          `).join('')}
+        </nav>
+      `;
+    }
   }
 
   setupQuantitySelectors();

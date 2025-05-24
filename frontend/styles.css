@@ -157,8 +157,8 @@ header {
 }
 
 .highlight-img {
-  width: 100px;
-  height: 100px;
+  width: 130px;
+  height: 130px;
   border-radius: 35%;
   object-fit: cover;
 }
@@ -172,13 +172,13 @@ header {
 
 .highlight-details h2 {
   font-family: "Playfair Display", serif;
-  font-size: 21px;
+  font-size: 30px;
   font-weight: normal;
   margin-bottom: 3px;
 }
 
 .highlight-details p {
-  font-size: 16px;
+  font-size: 20px;
   color: #707070;
   font-family: "Playfair Display", serif;
   margin-top: 5px;
@@ -425,6 +425,7 @@ footer a span {
   .highlight {
     flex-direction: column;
     text-align: center;
+    margin-left: 0;
   }
 
   .highlight-details {
@@ -559,10 +560,6 @@ body {
     background-color: var(--color-secondary);
 }
 /* Carousel Styles */
-.highlight {
-  position: relative;
-}
-
 .carousel-buttons {
   position: absolute;
   right: 10px;
@@ -631,7 +628,7 @@ body {
 .highlight.fade-out {
   opacity: 0;
 }
-/* Add to your styles.css */
+
 .highlight {
   transition: opacity 0.3s ease-in-out;
 }
@@ -669,9 +666,4 @@ body {
   background: black;
   color: white;
   transform: scale(1.1);
-}
-
-/* Make sure the highlight section has relative positioning */
-.highlight {
-  position: relative;
 }
