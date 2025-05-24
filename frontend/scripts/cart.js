@@ -1,55 +1,48 @@
-class Cart {
-    constructor() {
-        this.items = JSON.parse(localStorage.getItem('cartItems')) || [];
-    }
+// Cart functionality
+window.cart = {
+  items: JSON.parse(localStorage.getItem("wadau-cart") || "[]"),
 
-    addItem(itemId, quantity, price, name, image) {
-        const existingItem = this.items.find(item => item.id === itemId);
-        
-        if (existingItem) {
-            existingItem.quantity += quantity;
-        } else {
-            this.items.push({
-                id: itemId,
-                name: name,
-                price: price,
-                quantity: quantity,
-                image: image
-            });
-        }
-        
-        this.saveToLocalStorage();
+  addItem: function (id, quantity, price, name, image) {
+    const existingItem = this.items.find((item) => item.id === id)
+    if (existingItem) {
+      existingItem.quantity += quantity
+    } else {
+      this.items.push({ id, quantity, price, name, image })
     }
+    this.saveToStorage()
+    this.dispatchUpdate()
+  },
 
-    removeItem(itemId) {
-        this.items = this.items.filter(item => item.id !== itemId);
-        this.saveToLocalStorage();
-    }
+  removeItem: function (id) {
+    this.items = this.items.filter((item) => item.id !== id)
+    this.saveToStorage()
+    this.dispatchUpdate()
+  },
 
-    updateQuantity(itemId, newQuantity) {
-        const item = this.items.find(item => item.id === itemId);
-        if (item) {
-            item.quantity = newQuantity;
-            this.saveToLocalStorage();
-        }
+  updateQuantity: function (itemId, newQuantity) {
+    const item = this.items.find((i) => i.id === itemId)
+    if (item) {
+      item.quantity = newQuantity
+      this.saveToStorage()
+      this.dispatchUpdate()
     }
+  },
 
-    clearCart() {
-        this.items = [];
-        this.saveToLocalStorage();
-    }
+  getTotal: function () {
+    return this.items.reduce((total, item) => total + item.price * item.quantity, 0)
+  },
 
-    getTotal() {
-        return this.items.reduce((total, item) => total + (item.price * item.quantity), 0);
-    }
+  getItemCount: function () {
+    return this.items.reduce((count, item) => count + item.quantity, 0)
+  },
 
-    getItemCount() {
-        return this.items.reduce((count, item) => count + item.quantity, 0);
-    }
+  saveToStorage: function () {
+    localStorage.setItem("wadau-cart", JSON.stringify(this.items))
+  },
 
-    saveToLocalStorage() {
-        localStorage.setItem('cartItems', JSON.stringify(this.items));
-    }
+  dispatchUpdate: () => {
+    window.dispatchEvent(new Event("cartUpdated"))
+  },
 }
 
-const cart = new Cart();
+console.log("Cart initialized with", window.cart.items.length, "items")

@@ -1,62 +1,82 @@
 <!DOCTYPE html>
-<html> 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Wadau Experience</title>
-        <link rel="stylesheet" href="styles.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    </head>
-    <body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wadau Experience</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
         <header>
-            <p>Wadau Experience</p>
-            <button id="my-tray">My tray <i class="fa-solid fa-bowl-food"></i></button>
-        </header>
-        
-        <div class="our-special">
-            <h2>Our Special</h2>
-            <div class="special-item">
-                <div id="special-item-content"></div>
-                <button id="view-button" class="view-button">View</button>
+            <div class="wadau">Wadau Experience</div>
+            <div class="tray" onclick="goToMyTray()">
+                <span>My Tray</span>
+                <img src="images\love-food-offer.png" alt="Tray">
             </div>
+        </header>
+    </div>
+    
+    <!-- Special Section -->
+    <section class="special">
+        <h2>Our special</h2>
+        <div class="special-content">
+            <img src="images\goatImage.png" alt="Mbuzi Choma" class="special-img">
+            <div class="special-details">
+                <h3>Mbuzi choma</h3>
+                <p>
+                    Tender, juicy goat marinated in select spices and grilled to perfection. 
+                    Can be served with traditional sides like kachumbari, ugali, roast potatoes, or fries 
+                    (sides are priced separately).
+                </p>
+            </div>
+            <button class="button" onclick="goToThisWeekSpecial()">View</button>
         </div>
-        
-        <section class="menu">
-            <h2>Menu</h2>
-            <table>
-                <tr><td>
-                    <div class="menu-item" id="Platters">
-                        <p>Platters</p>
-                        <button id="Platters-btn"><i class="fa-solid fa-chevron-right"></i></button>
-                    </div>
-                </td></tr>
-                <tr><td>
-                    <div class="menu-item" id="Main-course">
-                        <p>Main course</p>
-                        <button id="Main-course-btn"><i class="fa-solid fa-chevron-right"></i></button>
-                    </div> 
-                </td></tr>
-                <tr><td>
-                    <div class="menu-item" id="Snacks">
-                        <p>Snacks</p>
-                        <button id="Snacks-btn"><i class="fa-solid fa-chevron-right"></i></button>
-                    </div>
-                </td></tr>
-                <tr><td>
-                    <div class="menu-item" id="Beverages">
-                        <p>Beverages</p>
-                        <button id="Beverages-btn"><i class="fa-solid fa-chevron-right"></i></button>
-                    </div>
-                </td></tr>
-            </table>
-        </section>
-        
-        <footer>
-            <p>for more inquiries call 0722861224</p>
-        </footer>
+    </section>
 
-        <script src="scripts/menu-data.js"></script>
-        <script src="scripts/cart.js"></script>
-        <script src="scripts/main.js"></script>
-    </body>
+    <!-- Full-Width Menu List -->
+    <nav class="menu-list">
+        <div class="menu-title">Menu</div>
+
+        <hr class="full-width-line">
+
+        <div class="menu-item" onclick="goToCategory('platters')">
+            <span>Platters</span>
+            <img src="images\right-arrow.png" alt="Arrow" class="menu-icon">
+        </div>
+        <hr class="full-width-line">
+
+        <div class="menu-item" onclick="goToCategory('main-course')">
+            <span>Main Course</span>
+            <img src="images\right-arrow.png" alt="Arrow" class="menu-icon">
+        </div>
+        <hr class="full-width-line">
+
+        <div class="menu-item" onclick="goToCategory('snacks')">
+            <span>Snacks</span>
+            <img src="images\right-arrow.png" alt="Arrow" class="menu-icon">
+        </div>
+        <hr class="full-width-line">
+
+        <div class="menu-item" onclick="goToCategory('beverages')">
+            <span>Beverages</span>
+            <img src="images\right-arrow.png" alt="Arrow" class="menu-icon">
+        </div>
+
+        <hr class="full-width-line">
+    </nav>
+
+    <div class="container">
+        <!-- Footer Section -->
+        <footer>
+            <a href="#">For inquiries call <span>0 722 861 224</span></a>
+        </footer>    
+    </div>
+
+    <script src="scripts/menu-data.js"></script>
+    <script src="scripts/cart.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
 </html>

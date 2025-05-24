@@ -1,24 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Tray - Wadau Experience</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <button id="back-button" class="back-button"><i class="fa-solid fa-arrow-left"></i> Back</button>
-        <button id="my-tray">My tray <i class="fa-solid fa-bowl-food"></i></button>
-    </header>
+    <div class="second-header">
+        <header>
+            <span class="back" id="back-button">
+                <img src="images\left-arrow.png" alt="Back" class="icon"> back
+            </span>
+            <div class="tray">
+                <span>My Tray</span>
+                <img src="images\love-food-offer.png" alt="Tray" class="icon">
+            </div>
+        </header>
+    </div>
     
     <main class="tray-container">
         <div class="tray-header">
-            <img src="images/chef.png" alt="chef" class="chef-icon">
+            <img src="images\waiter.png" alt="chef" class="chef-icon">
             <div>
-            <h2>Tray Selection</h2>
-            <p id="items-summary">Your selected items will appear here</p>
+                <h2>Tray Selection</h2>
+                <p id="items-summary">Your selected items will appear here</p>
             </div>
             <div class="total-price-display">
                 <span>Total: </span>
@@ -27,10 +34,10 @@
             <button id="checkout-button" class="checkout-button">Checkout</button>
         </div>
         
-        <div id="tray-items" class="tray-items-list"></div>
+        <div class="menu-list2" id="tray-items"></div>
     </main>
 
-    <script src="scripts/menu-data.js"></script>
+    <!-- Load scripts in correct order -->
     <script src="scripts/cart.js"></script>
     <script src="scripts/mytray.js"></script>
 </body>

@@ -1,22 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wadau Experience</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <button id="back-button" class="back-button"><i class="fa-solid fa-arrow-left"></i> back</button>
-        <button id="my-tray">My tray <i class="fa-solid fa-bowl-food"></i></button>
-    </header>
+    <div class="second-header">
+        <header>
+            <span class="back" onclick="goBack()">
+                <img src="images\left-arrow.png" alt="Back" class="icon"> back
+            </span>
+            <div class="tray" onclick="goToMyTray()">
+                <span>My Tray</span>
+                <img src="images\love-food-offer.png" alt="Tray" class="icon">
+            </div>
+        </header>
+    </div>
     
     <main class="category-container">
         <div id="category-content"></div>
     </main>
-
     <script src="scripts/menu-data.js"></script>
     <script src="scripts/cart.js"></script>
     <script src="scripts/category-page.js"></script>
