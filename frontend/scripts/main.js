@@ -1,64 +1,70 @@
-// Transition delay for smooth navigation
-const transitionDelay = 300
-
-// Declare the cart variable
-let cart
+const transitionDelay = 300;
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (window.cart) {
-    console.log("Cart ready on main page");
-    updateCartIndicator();
-  } else {
-    setTimeout(updateCartIndicator, 100);
-  }
+    if (window.cart) {
+        updateCartIndicator();
+    } else {
+        setTimeout(updateCartIndicator, 100);
+    }
 
-  displaySpecialItem();
+    displaySpecialItem();
 });
 
 function displaySpecialItem() {
-  // This will show the Mbuzi Choma special from your menu data
-  if (window.menuData) {
-    const mbuziChoma = window.menuData.categories
-      .find((c) => c.id === "main-course")
-      ?.subcategories?.find((s) => s.id === "mbuzi-choma")
-
-    if (mbuziChoma) {
-      // Special item is already displayed in HTML, but you can update it dynamically if needed
-      console.log("Special item loaded:", mbuziChoma.name)
+    if (window.menuData) {
+        loadSpecialItem();
+    } else {
+        const checkInterval = setInterval(() => {
+            if (window.menuData) {
+                clearInterval(checkInterval);
+                loadSpecialItem();
+            }
+        }, 100);
     }
-  }
+}
+
+function loadSpecialItem() {
+    const specialSection = document.getElementById('special-section');
+    const mbuziChoma = window.menuData?.categories
+        .find(c => c.id === "main-course")
+        ?.subcategories?.find(s => s.id === "mbuzi-choma");
+
+    specialSection.innerHTML = `
+        <h2>Our special</h2>
+        <div class="special-content">
+            <img src="${mbuziChoma?.image || 'images/goatImage.png'}" alt="${mbuziChoma?.name || 'Mbuzi Choma'}" class="special-img">
+            <div class="special-details">
+                <h3>${mbuziChoma?.name || 'Mbuzi choma'}</h3>
+                <p>${mbuziChoma?.description || 'Tender, juicy goat marinated in select spices and grilled to perfection.'}</p>
+            </div>
+            <button class="button" onclick="goToThisWeekSpecial()">View</button>
+        </div>
+    `;
 }
 
 function goToMyTray() {
-  document.body.style.opacity = 0
-  setTimeout(() => {
-    window.location.href = "mytray.html"
-  }, transitionDelay)
+    navigateTo("mytray.html");
 }
 
 function goToThisWeekSpecial() {
-  document.body.style.opacity = 0
-  setTimeout(() => {
-    window.location.href = `category.html?category=main-course&subcategory=mbuzi-choma`
-  }, transitionDelay)
+    navigateTo(`category.html?category=main-course&subcategory=mbuzi-choma`);
 }
 
 function goToCategory(categoryId) {
-  document.body.style.opacity = 0
-  setTimeout(() => {
-    window.location.href = `category.html?category=${categoryId}`
-  }, transitionDelay)
+    navigateTo(`category.html?category=${categoryId}`);
+}
+
+function navigateTo(url) {
+    document.body.style.opacity = 0;
+    setTimeout(() => window.location.href = url, transitionDelay);
 }
 
 function updateCartIndicator() {
-  const trayButton = document.querySelector(".tray span")
-  if (trayButton && window.cart) {
-    const itemCount = window.cart.getItemCount()
-    trayButton.textContent = `My Tray ${itemCount > 0 ? `(${itemCount})` : ""}`
-  }
+    const trayButton = document.querySelector(".tray span");
+    if (trayButton && window.cart) {
+        const itemCount = window.cart.getItemCount();
+        trayButton.textContent = `My Tray ${itemCount > 0 ? `(${itemCount})` : ""}`;
+    }
 }
 
-// Update cart indicator when items are added
-if (typeof window !== "undefined") {
-  window.addEventListener("cartUpdated", updateCartIndicator)
-}
+window.addEventListener("cartUpdated", updateCartIndicator);

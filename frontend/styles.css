@@ -12,10 +12,12 @@ body {
   color: #000;
   line-height: 1.6;
   background: white;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .container {
-  max-width: 90%;
+  max-width: 96%;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -34,7 +36,7 @@ header {
 
 .second-header header {
   margin-top: 28px !important;
-  width: 70%;
+  width: 90%;
 }
 
 .wadau {
@@ -76,7 +78,7 @@ header {
   text-align: center;
   margin: -18px auto 18px;
   top: -18px;
-  max-width: 80%;
+  max-width: 86%;
   position: relative;
 }
 
@@ -91,7 +93,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
+  padding: 1px;
   font-family: "Playfair Display", serif;
   margin-left: -10px;
 }
@@ -153,7 +155,11 @@ header {
   text-align: center;
   margin: 30px auto 40px;
   position: relative;
-  max-width: 1150px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.highlight.fade-out {
+  opacity: 0;
 }
 
 .highlight-img {
@@ -186,7 +192,7 @@ header {
 
 /* Menu List Styles */
 .menu-list {
-  max-width: 80%;
+  max-width: 96%;
   margin: 0 auto;
   font-family: "Playfair Display", serif;
 }
@@ -202,7 +208,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
+  padding: 5px;
   font-size: 28px;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -239,14 +245,13 @@ header {
   display: flex;
   flex-direction: column;
   gap: 0px;
-  max-width: 1150px;
   margin: 0 auto;
 }
 
 .menu-item2 {
   display: flex;
   flex-direction: column;
-  padding: 10px 40px;
+  padding: 5px;
   font-size: 21px;
   position: relative;
 }
@@ -263,17 +268,19 @@ header {
   font-size: 28px;
   font-weight: normal;
 }
-.note-to-chef{
+
+.note-to-chef {
   width: 15%;
   box-shadow: 0px 3px 6px #00000029;
   border-radius: 4px;
   opacity: 1;
 }
+
 .item-details2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 5px;
+  padding-top: 1px;
   font-family: "Playfair Display", serif;
 }
 
@@ -312,6 +319,7 @@ header {
   cursor: pointer;
   font-family: "Playfair Display", serif;
   font-weight: normal;
+  transition: all 0.3s ease;
 }
 
 .add-to-tray2:hover {
@@ -332,13 +340,9 @@ footer a {
   font-family: "Playfair Display", serif;
 }
 
-footer a span {
-  font-family: "Playfair Display", serif;
-}
-
 /* Tray Page Styles */
 .tray-container {
-  max-width: 70%;
+  max-width: 94%;
   margin: 0 auto;
   padding: 20px;
 }
@@ -395,75 +399,71 @@ footer a span {
 
 /* Category Container */
 .category-container {
-  max-width: 1150px;
+  max-width: 94%;
   margin: 0 auto;
   padding: 20px;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .container {
-    padding: 0 15px;
-  }
-
-  header {
-    width: 95%;
-    font-size: 18px;
-    padding: 20px 0;
-  }
-
-  .special-content {
-    flex-direction: column;
-    text-align: center;
-    margin-left: 0;
-  }
-
-  .special-details {
-    margin: 20px 0;
-  }
-
-  .highlight {
-    flex-direction: column;
-    text-align: center;
-    margin-left: 0;
-  }
-
-  .highlight-details {
-    margin: 20px 0;
-    text-align: center;
-  }
-
-  .menu-item2 {
-    padding: 10px 20px;
-  }
-
-  .item-details2 {
-    flex-direction: column;
-    gap: 15px;
-    align-items: stretch;
-  }
-
-  .quantity2 {
-    justify-content: center;
-  }
-
-  .tray-header {
-    flex-direction: column;
-    text-align: center;
-  }
+/* Carousel Styles */
+.carousel-buttons {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 90;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
 }
 
-/* Transition Effects */
-body {
+.highlight:hover .carousel-buttons {
   opacity: 1;
-  transition: opacity 0.3s ease-in-out;
+  transform: translateY(-50%) scale(1.1);
 }
 
-.menu-item,
-.add-to-tray2,
-.button,
-.checkout-button {
+.carousel-button {
+  background: white;
+  border: none;
+  font-size: 14px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
+}
+
+.carousel-button:hover {
+  background: black;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Dot indicators */
+.slider-dots {
+  display: flex;
+  justify-content: left;
+  margin-top: 5px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background: white;
+  border: 1px solid #707070;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.dot.active {
+  background: #707070;
 }
 
 /* Loading State */
@@ -559,111 +559,56 @@ body {
 .home-button:hover {
     background-color: var(--color-secondary);
 }
-/* Carousel Styles */
-.carousel-buttons {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  gap: 12px;
-  opacity: 0;
-  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
-}
 
-.highlight:hover .carousel-buttons {
-  opacity: 1;
-  transform: translateY(-50%) scale(1.1);
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+  }
 
-.carousel-button {
-  background: white;
-  border: none;
-  font-size: 14px;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  transition: background 0.3s, transform 0.3s ease-in-out;
-}
+  header {
+    width: 95%;
+    font-size: 18px;
+    padding: 20px 0;
+  }
 
-.carousel-button:hover {
-  background: black;
-  color: white;
-  transform: scale(1.1);
-}
+  .special-content {
+    flex-direction: column;
+    text-align: center;
+    margin-left: 0;
+  }
 
-/* Dot indicators */
-.slider-dots {
-  display: flex;
-  justify-content: center;
-  margin-top: 15px;
-}
+  .special-details {
+    margin: 20px 0;
+  }
 
-.dot {
-  width: 10px;
-  height: 10px;
-  background: white;
-  border: 1px solid #707070;
-  border-radius: 50%;
-  display: inline-block;
-  margin: 0 5px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
+  .highlight {
+    flex-direction: column;
+    text-align: center;
+    margin-left: 0;
+  }
 
-.dot.active {
-  background: #707070;
-}
+  .highlight-details {
+    margin: 20px 0;
+    text-align: center;
+  }
 
-/* Fade animation */
-.highlight {
-  transition: opacity 0.5s ease-in-out;
-}
+  .menu-item2 {
+    padding: 10px 20px;
+  }
 
-.highlight.fade-out {
-  opacity: 0;
-}
+  .item-details2 {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
 
-.highlight {
-  transition: opacity 0.3s ease-in-out;
-}
+  .quantity2 {
+    justify-content: center;
+  }
 
-.highlight.fade-out {
-  opacity: 0;
-}
-
-.carousel-buttons {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  gap: 12px;
-  z-index: 10; /* Ensure buttons stay above other elements */
-}
-
-.carousel-button {
-  background: white;
-  border: none;
-  font-size: 14px;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
-}
-
-.carousel-button:hover {
-  background: black;
-  color: white;
-  transform: scale(1.1);
+  .tray-header {
+    flex-direction: column;
+    text-align: center;
+  }
 }

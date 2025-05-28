@@ -32,13 +32,15 @@
             flex-direction: column;
             align-items: center;
             background: #fff;
+            padding-top: 20px;
         }
         
         .header-buttons {
+            padding-top: 20px;
             position: absolute;
             top: 20px;
             width: 100%;
-            max-width: 500px;
+            max-width: 80%;
             display: flex;
             justify-content: space-between;
             padding: 0 20px;
@@ -64,13 +66,13 @@
         
         .payment-content {
             width: 100%;
-            max-width: 500px;
+            max-width: 70%;
             margin-top: 80px;
         }
         .payment-content h1 {
             text-align: center;
             margin-bottom: 20px;
-            font-size: 24px;
+            font-size: 32px;
             margin: 0 0 10px;
             font-weight: normal;
         }
@@ -318,17 +320,16 @@ document.addEventListener('DOMContentLoaded', function() {
 function goBack() {
     window.history.back();
 }
-
 function processPayment(method) {
     const reservation = JSON.parse(localStorage.getItem('current-reservation')) || {};
 
+    // Validate payment details
     if (method === 'mpesa') {
         const phone = document.getElementById('mpesa-phone').value.trim();
         if (!phone) {
             alert('Please enter your M-Pesa phone number');
             return;
         }
-        
         reservation.paymentMethod = 'M-Pesa';
         reservation.mpesaNumber = phone;
     } 
@@ -353,7 +354,7 @@ function processPayment(method) {
         reservation.cardExpiry = `${expiryMonth}/${expiryYear}`;
     }
     
-    // Save updated reservation
+    // Update reservation data
     localStorage.setItem('current-reservation', JSON.stringify(reservation));
     
     // Show processing state
@@ -363,20 +364,54 @@ function processPayment(method) {
         button.textContent = 'Processing...';
     }
     
-    // Simulate payment processing
+    // Process payment
     setTimeout(() => {
-        // Save to reservations
-        const reservations = JSON.parse(localStorage.getItem('wadau-reservations')) || [];
-        reservations.push(reservation);
-        localStorage.setItem('wadau-reservations', JSON.stringify(reservations));
-        
-        // Clear cart and redirect (only do this once!)
-        if (method === 'mpesa' || method === 'card') {
+        try {
+            console.log("Starting payment processing..."); // Debug log
+            
+            // 1. Get current reservation data
+            const reservation = JSON.parse(localStorage.getItem('current-reservation')) || {};
+            console.log("Current reservation:", reservation); // Debug log
+            
+            // 2. Save to reservations
+            const reservations = JSON.parse(localStorage.getItem('wadau-reservations')) || [];
+            reservations.push(reservation);
+            localStorage.setItem('wadau-reservations', JSON.stringify(reservations));
+            console.log("Reservation saved"); // Debug log
+            
+            // 3. Clear the cart - THIS IS THE CRUCIAL PART
             if (window.cart) {
-                window.cart.clearCart(); 
+                console.log("Cart object found, clearing..."); // Debug log
+                window.cart.clearCart();
+                
+                // Verify clearing worked
+                const currentCart = JSON.parse(localStorage.getItem("wadau-cart") || "[]");
+                console.log("Cart after clearing:", currentCart); // Debug log
+                
+                if (currentCart.length > 0) {
+                    throw new Error("Cart didn't clear properly");
+                }
+            } else {
+                console.warn("Cart object not found in window"); // Debug log
+                // Fallback: manually clear localStorage
+                localStorage.setItem("wadau-cart", "[]");
             }
+            
+            // 4. Clean up temporary data
             localStorage.removeItem('current-reservation');
-            window.location.href = 'subscription.html'; // Single redirect
+            console.log("Temporary data cleared"); // Debug log
+            
+            // 5. Redirect to confirmation
+            console.log("Redirecting to subscription page..."); // Debug log
+            window.location.href = 'subscription.html';
+            
+        } catch (error) {
+            console.error("Payment processing failed:", error);
+            if (button) {
+                button.disabled = false;
+                button.textContent = 'Pay Now';
+            }
+            alert("Payment processing failed. Please try again.");
         }
     }, 2000);
 }
