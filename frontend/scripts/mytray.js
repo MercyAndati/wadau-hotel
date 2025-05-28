@@ -34,6 +34,13 @@ function setupTrayPage() {
                 alert("Your tray is empty. Please add items first.");
                 return;
             }
+            
+            // Save the current cart total to localStorage
+            const reservationData = {
+                amount: window.cart.getTotal().toFixed(2)
+            };
+            localStorage.setItem('current-reservation', JSON.stringify(reservationData));
+            
             window.location.href = "reservation.html";
         });
     }
@@ -69,7 +76,7 @@ function renderTrayItems() {
                 <span class="item-name">${item.name}</span>
                 <div class="note-to-chef" style="margin-top: 10px;">
                     <input type="text" placeholder= "Note to Chef" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px;"> 
-    	         </div>
+                </div>
             </div>
             <div class="item-details2">
                 <div class="quantity2">
@@ -78,7 +85,7 @@ function renderTrayItems() {
                     <img src="images/right-arrow.png" alt="Increase" class="icon" data-action="increase" data-id="${item.id}">
                 </div>
                 <span class="price2">Ksh ${(item.price * item.quantity).toFixed(2)}</span>
-                <button class="add-to-tray2" data-action="Remove" data-id="${item.id}">Remove</button>
+                <button class="add-to-tray2" data-action="remove" data-id="${item.id}">Remove</button>
             </div>
         `;
         trayItems.appendChild(itemElement);

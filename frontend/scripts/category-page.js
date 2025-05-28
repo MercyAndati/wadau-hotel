@@ -1,3 +1,4 @@
+const transitionDelay = 300;
 const SPECIAL_ITEMS = {
   'main-course': {
     id: 'mbuzi-choma',
@@ -12,6 +13,11 @@ const SPECIAL_ITEMS = {
     image: 'images/juice.png'
   }
 };
+
+// Carousel state
+let currentCarouselIndex = 0;
+let carouselItems = [];
+
 // Carousel navigation functions
 function navigateCarousel(direction) {
   currentCarouselIndex = (currentCarouselIndex + direction + carouselItems.length) % carouselItems.length;
@@ -23,17 +29,14 @@ function goToCarouselItem(index) {
   updateCarouselDisplay();
 }
 
-// Update the updateCarouselDisplay function to handle the fade animation
 function updateCarouselDisplay() {
   const item = carouselItems[currentCarouselIndex];
   const highlightSection = document.querySelector('.highlight');
   
   if (!highlightSection) return;
   
-  // Add fade-out class
   highlightSection.classList.add('fade-out');
   
-  // Wait for fade-out to complete before updating content
   setTimeout(() => {
     const highlightImg = highlightSection.querySelector('.highlight-img');
     const highlightTitle = highlightSection.querySelector('.highlight-details h2');
@@ -46,31 +49,16 @@ function updateCarouselDisplay() {
     if (highlightTitle) highlightTitle.textContent = item.name;
     if (highlightDesc) highlightDesc.textContent = item.description || "Delicious item from our menu.";
     
-    // Update dots
     const dots = highlightSection.querySelectorAll('.dot');
     dots.forEach((dot, index) => {
       dot.classList.toggle('active', index === currentCarouselIndex);
     });
     
-    // Remove fade-out class to fade back in
     highlightSection.classList.remove('fade-out');
   }, 300); 
 }
 
-// Make sure these functions are available globally
-window.navigateCarousel = navigateCarousel;
-window.goToCarouselItem = goToCarouselItem;
-// scripts/category-page.js
-const transitionDelay = 300;
-
-// Carousel state
-let currentCarouselIndex = 0;
-let carouselItems = [];
-
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("🚀 Category page DOM loaded");
-
-  // Function to check if menu data is ready
   function checkMenuData() {
     if (window.menuData && window.menuData.categories) {
       initializePage();
@@ -79,37 +67,27 @@ document.addEventListener("DOMContentLoaded", () => {
     return false;
   }
 
-  // Try immediately
-  if (checkMenuData()) return;
-
-  // If not ready, listen for the event
-  window.addEventListener("menuDataLoaded", checkMenuData);
-
-  // Fallback: keep trying for up to 3 seconds
-  let attempts = 0;
-  const maxAttempts = 30;
-  const interval = setInterval(() => {
-    attempts++;
-    if (checkMenuData() || attempts >= maxAttempts) {
-      clearInterval(interval);
-      if (attempts >= maxAttempts) {
-        console.error("Failed to load menu data");
-        showError("Menu data failed to load. Please refresh the page.");
+  if (!checkMenuData()) {
+    let attempts = 0;
+    const maxAttempts = 30;
+    const interval = setInterval(() => {
+      attempts++;
+      if (checkMenuData() || attempts >= maxAttempts) {
+        clearInterval(interval);
+        if (attempts >= maxAttempts) {
+          showError("Menu data failed to load. Please refresh the page.");
+        }
       }
-    }
-  }, 100);
+    }, 100);
+  }
 });
 
 function initializePage() {
-  // Get parameters from URL
   const urlParams = new URLSearchParams(window.location.search);
   const categoryId = urlParams.get("category");
   const subcategoryId = urlParams.get("subcategory");
   const subSubcategoryId = urlParams.get("subsubcategory");
 
-  console.log(`Loading: category=${categoryId}, subcategory=${subcategoryId}, subsubcategory=${subSubcategoryId}`);
-
-  // Load appropriate content
   if (subSubcategoryId) {
     loadSubSubcategoryItems(categoryId, subcategoryId, subSubcategoryId);
   } else if (subcategoryId) {
@@ -119,22 +97,17 @@ function initializePage() {
   }
 }
 
-// Update the loadCategoryContent function
 function loadCategoryContent(categoryId) {
   const category = findCategory(categoryId);
   if (!category) return showError("Category not found");
 
   const container = document.getElementById("category-content");
-
-  // Check if this is a category with a special item
   const specialItem = SPECIAL_ITEMS[categoryId];
 
   if (category.items && category.items.length > 0) {
-    // Set up carousel items
     carouselItems = category.items;
     currentCarouselIndex = 0;
     
-    // Create carousel HTML
     container.innerHTML = `
       <section class="highlight">
         <img src="${carouselItems[0].image || 'images/placeholder-goat.jpg'}" 
@@ -150,8 +123,6 @@ function loadCategoryContent(categoryId) {
             `).join('')}
           </div>
         </div>
-        
-        <!-- Carousel navigation buttons -->
         <div class="carousel-buttons">
           <button class="carousel-button prev" onclick="navigateCarousel(-1)">
             <i class="fas fa-chevron-left"></i>
@@ -161,124 +132,58 @@ function loadCategoryContent(categoryId) {
           </button>
         </div>
       </section>
-      
-      <!-- Menu items container - show ALL items -->
       <div class="menu-list2" id="items-container">
-        ${category.items.map((item) => createItemCard(item)).join("")}
+        ${category.items.map(createItemCard).join("")}
       </div>
     `;
     
-    // Load Font Awesome for icons
     loadFontAwesome();
-    
   } else if (category.subcategories) {
-    // Check if we should show a special item
-    if (specialItem) {
-      container.innerHTML = `
-        <section class="highlight">
-          <img src="${specialItem.image}" alt="${specialItem.name}" class="highlight-img">
-          <div class="highlight-details">
-            <h2>${specialItem.name}</h2>
-            <p>${specialItem.description}</p>
-            <button class="button" onclick="goToSubcategory('${categoryId}', '${specialItem.id}')">
-              View
-            </button>
+    container.innerHTML = specialItem ? `
+      <section class="highlight">
+        <img src="${specialItem.image}" alt="${specialItem.name}" class="highlight-img">
+        <div class="highlight-details">
+          <h2>${specialItem.name}</h2>
+          <p>${specialItem.description}</p>
+          <button class="button" onclick="goToSubcategory('${categoryId}', '${specialItem.id}')">
+            View
+          </button>
+        </div>
+      </section>
+      <nav class="menu-list">
+        <div class="menu-title">${category.name}</div>
+        <hr class="full-width-line">
+        ${category.subcategories.map(subcategory => `
+          <div class="menu-item" onclick="goToSubcategory('${categoryId}', '${subcategory.id}')">
+            <span>${subcategory.name}</span>
+            <img src="images/right-arrow.png" alt="Arrow" class="menu-icon">
           </div>
-        </section>
-        <nav class="menu-list">
-          <div class="menu-title">${category.name}</div>
           <hr class="full-width-line">
-          ${category.subcategories.map(subcategory => `
-            <div class="menu-item" onclick="goToSubcategory('${categoryId}', '${subcategory.id}')">
-              <span>${subcategory.name}</span>
-              <img src="images/right-arrow.png" alt="Arrow" class="menu-icon">
-            </div>
-            <hr class="full-width-line">
-          `).join('')}
-        </nav>
-      `;
-    } else {
-      // Regular subcategory display
-      container.innerHTML = `
-        <section class="highlight">
-          <img src="images/placeholder-goat.jpg" alt="${category.name}" class="highlight-img">
-          <div class="highlight-details">
-            <h2>${category.name}</h2>
-            <p>${category.description || "Choose from our selection of categories."}</p>
+        `).join('')}
+      </nav>
+    ` : `
+      <section class="highlight">
+        <img src="images/placeholder-goat.jpg" alt="${category.name}" class="highlight-img">
+        <div class="highlight-details">
+          <h2>${category.name}</h2>
+          <p>${category.description || "Choose from our selection of categories."}</p>
+        </div>
+      </section>
+      <nav class="menu-list">
+        <div class="menu-title">${category.name}</div>
+        <hr class="full-width-line">
+        ${category.subcategories.map(subcategory => `
+          <div class="menu-item" onclick="goToSubcategory('${categoryId}', '${subcategory.id}')">
+            <span>${subcategory.name}</span>
+            <img src="images/right-arrow.png" alt="Arrow" class="menu-icon">
           </div>
-        </section>
-        <nav class="menu-list">
-          <div class="menu-title">${category.name}</div>
           <hr class="full-width-line">
-          ${category.subcategories.map(subcategory => `
-            <div class="menu-item" onclick="goToSubcategory('${categoryId}', '${subcategory.id}')">
-              <span>${subcategory.name}</span>
-              <img src="images/right-arrow.png" alt="Arrow" class="menu-icon">
-            </div>
-            <hr class="full-width-line">
-          `).join('')}
-        </nav>
-      `;
-    }
+        `).join('')}
+      </nav>
+    `;
   }
 
   setupQuantitySelectors();
-}
-
-// Update the carousel navigation to only update the highlight section
-function updateCarouselDisplay() {
-  const item = carouselItems[currentCarouselIndex];
-  
-  // Update highlight section only
-  const highlightImg = document.querySelector('.highlight-img');
-  const highlightTitle = document.querySelector('.highlight-details h2');
-  const highlightDesc = document.querySelector('.highlight-details p');
-  
-  if (highlightImg) highlightImg.src = item.image || 'images/placeholder-goat.jpg';
-  if (highlightImg) highlightImg.alt = item.name;
-  if (highlightTitle) highlightTitle.textContent = item.name;
-  if (highlightDesc) highlightDesc.textContent = item.description || "Delicious item from our menu.";
-  
-  // Update dots
-  const dots = document.querySelectorAll('.dot');
-  dots.forEach((dot, index) => {
-    dot.classList.toggle('active', index === currentCarouselIndex);
-  });
-  
-  // Don't update the items container - all items remain visible
-}
-
-function loadFontAwesome() {
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css';
-  document.head.appendChild(link);
-}
-
-// Rest of your existing functions remain the same...
-function goBack() {
-  document.body.style.opacity = 0;
-  setTimeout(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const categoryId = urlParams.get("category");
-    const subcategoryId = urlParams.get("subcategory");
-    const subSubcategoryId = urlParams.get("subsubcategory");
-
-    if (subSubcategoryId) {
-      window.location.href = `category.html?category=${categoryId}&subcategory=${subcategoryId}`;
-    } else if (subcategoryId) {
-      window.location.href = `category.html?category=${categoryId}`;
-    } else {
-      window.location.href = "index.html";
-    }
-  }, transitionDelay);
-}
-
-function goToMyTray() {
-  document.body.style.opacity = 0;
-  setTimeout(() => {
-    window.location.href = "mytray.html";
-  }, transitionDelay);
 }
 
 function loadSubcategoryItems(categoryId, subcategoryId) {
@@ -291,7 +196,6 @@ function loadSubcategoryItems(categoryId, subcategoryId) {
   const container = document.getElementById("category-content");
 
   if (subcategory.items) {
-    // Show items in the new style
     container.innerHTML = `
       <section class="highlight">
         <img src="${subcategory.image || "images/placeholder-goat.jpg"}" alt="${subcategory.name}" class="highlight-img">
@@ -301,11 +205,10 @@ function loadSubcategoryItems(categoryId, subcategoryId) {
         </div>
       </section>
       <div class="menu-list2" id="items-container">
-        ${subcategory.items.map((item) => createItemCard(item)).join("")}
+        ${subcategory.items.map(createItemCard).join("")}
       </div>
     `;
   } else if (subcategory.subcategories) {
-    // Show further subcategories
     container.innerHTML = `
       <section class="highlight">
         <img src="${subcategory.image || "images/placeholder-goat.jpg"}" alt="${subcategory.name}" class="highlight-img">
@@ -356,7 +259,7 @@ function loadSubSubcategoryItems(categoryId, subcategoryId, subSubcategoryId) {
       </div>
     </section>
     <div class="menu-list2" id="items-container">
-      ${subSubcategory.items.map((item) => createItemCard(item)).join("")}
+      ${subSubcategory.items.map(createItemCard).join("")}
     </div>
   `;
 
@@ -388,133 +291,142 @@ function createItemCard(item) {
   `;
 }
 
-function createItemCard(item) {
-  const isInCart = window.cart.items.find((cartItem) => cartItem.id === item.id)
-
-  return `
-        <div class="menu-item2">
-            <hr class="full-width-line">
-            <div class="item-info2">
-                <span class="item-name">${item.name}</span>
-            </div>
-            <div class="item-details2">
-                <div class="quantity2">
-                    <img src="images/left-arrow.png" alt="Decrease" class="icon" onclick="updateQuantity('${item.id}', -1)">
-                    <span id="quantity-${item.id}">1</span>
-                    <img src="images/right-arrow.png" alt="Increase" class="icon" onclick="updateQuantity('${item.id}', 1)">
-                </div>
-                <span class="price2">Ksh <span id="price-${item.id}">${item.price}</span></span>
-                <button class="add-to-tray2" id="btn-${item.id}" onclick="toggleCart('${item.id}')" 
-                        style="${isInCart ? "background: white; color: black; border: 2px solid black;" : ""}">${isInCart ? "Remove" : "Add to tray"}</button>
-            </div>
-        </div>
-    `
-}
-
 function setupQuantitySelectors() {
-  // Quantity selectors are handled by individual onclick events in the HTML
+  // Handled by inline onclick events
 }
 
 function updateQuantity(itemId, change) {
-  const quantityElement = document.getElementById(`quantity-${itemId}`)
-  const priceElement = document.getElementById(`price-${itemId}`)
+  const quantityElement = document.getElementById(`quantity-${itemId}`);
+  const priceElement = document.getElementById(`price-${itemId}`);
 
-  if (!quantityElement || !priceElement) return
+  if (!quantityElement || !priceElement) return;
 
-  // Find the item in menu data to get base price
-  const item = findItemById(itemId)
-  if (!item) return
+  const item = findItemById(itemId);
+  if (!item) return;
 
-  let quantity = Number.parseInt(quantityElement.textContent) + change
-  if (quantity < 1) quantity = 1
+  let quantity = Number.parseInt(quantityElement.textContent) + change;
+  if (quantity < 1) quantity = 1;
 
-  quantityElement.textContent = quantity
-  priceElement.textContent = item.price * quantity
+  quantityElement.textContent = quantity;
+  priceElement.textContent = item.price * quantity;
 }
 
 function toggleCart(itemId) {
-  const button = document.getElementById(`btn-${itemId}`)
-  const quantityElement = document.getElementById(`quantity-${itemId}`)
+  const button = document.getElementById(`btn-${itemId}`);
+  const quantityElement = document.getElementById(`quantity-${itemId}`);
 
-  if (!button || !quantityElement) return
+  if (!button || !quantityElement) return;
 
-  const quantity = Number.parseInt(quantityElement.textContent)
-  const item = findItemById(itemId)
+  const quantity = Number.parseInt(quantityElement.textContent);
+  const item = findItemById(itemId);
 
-  if (!item) return
+  if (!item) return;
 
   if (window.cart.items.find((cartItem) => cartItem.id === itemId)) {
-    // Remove from cart
-    window.cart.removeItem(itemId)
-    button.textContent = "Add to tray"
-    button.style.backgroundColor = ""
-    button.style.color = ""
-    button.style.border = ""
+    window.cart.removeItem(itemId);
+    button.textContent = "Add to tray";
+    button.style.backgroundColor = "";
+    button.style.color = "";
+    button.style.border = "";
   } else {
-    // Add to cart
-    window.cart.addItem(itemId, quantity, item.price, item.name, item.image || "images/placeholder-goat.jpg")
-    button.textContent = "Remove"
-    button.style.backgroundColor = "white"
-    button.style.color = "black"
-    button.style.border = "2px solid black"
+    window.cart.addItem(itemId, quantity, item.price, item.name, item.image || "images/placeholder-goat.jpg");
+    button.textContent = "Remove";
+    button.style.backgroundColor = "white";
+    button.style.color = "black";
+    button.style.border = "2px solid black";
   }
 }
 
-function goToSubcategory(categoryId, subcategoryId) {
-  document.body.style.opacity = 0
+function goBack() {
+  document.body.style.opacity = 0;
   setTimeout(() => {
-    window.location.href = `category.html?category=${categoryId}&subcategory=${subcategoryId}`
-  }, transitionDelay)
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryId = urlParams.get("category");
+    const subcategoryId = urlParams.get("subcategory");
+    const subSubcategoryId = urlParams.get("subsubcategory");
+
+    if (subSubcategoryId) {
+      window.location.href = `category.html?category=${categoryId}&subcategory=${subcategoryId}`;
+    } else if (subcategoryId) {
+      window.location.href = `category.html?category=${categoryId}`;
+    } else {
+      window.location.href = "index.html";
+    }
+  }, transitionDelay);
+}
+
+function goToMyTray() {
+  document.body.style.opacity = 0;
+  setTimeout(() => {
+    window.location.href = "mytray.html";
+  }, transitionDelay);
+}
+
+function goToSubcategory(categoryId, subcategoryId) {
+  document.body.style.opacity = 0;
+  setTimeout(() => {
+    window.location.href = `category.html?category=${categoryId}&subcategory=${subcategoryId}`;
+  }, transitionDelay);
 }
 
 function goToSubSubcategory(categoryId, subcategoryId, subSubcategoryId) {
-  document.body.style.opacity = 0
+  document.body.style.opacity = 0;
   setTimeout(() => {
-    window.location.href = `category.html?category=${categoryId}&subcategory=${subcategoryId}&subsubcategory=${subSubcategoryId}`
-  }, transitionDelay)
+    window.location.href = `category.html?category=${categoryId}&subcategory=${subcategoryId}&subsubcategory=${subSubcategoryId}`;
+  }, transitionDelay);
 }
 
-// Helper functions
 function findCategory(categoryId) {
-  return window.menuData.categories.find((c) => c.id === categoryId)
+  return window.menuData.categories.find((c) => c.id === categoryId);
 }
 
 function findSubcategory(parentCategory, subcategoryId) {
-  return parentCategory.subcategories?.find((s) => s.id === subcategoryId)
+  return parentCategory.subcategories?.find((s) => s.id === subcategoryId);
 }
 
 function findItemById(itemId) {
   for (const category of window.menuData.categories) {
     if (category.items) {
-      const item = category.items.find((i) => i.id === itemId)
-      if (item) return item
+      const item = category.items.find((i) => i.id === itemId);
+      if (item) return item;
     }
 
     if (category.subcategories) {
       for (const subcategory of category.subcategories) {
         if (subcategory.items) {
-          const item = subcategory.items.find((i) => i.id === itemId)
-          if (item) return item
+          const item = subcategory.items.find((i) => i.id === itemId);
+          if (item) return item;
         }
 
         if (subcategory.subcategories) {
           for (const subSub of subcategory.subcategories) {
             if (subSub.items) {
-              const item = subSub.items.find((i) => i.id === itemId)
-              if (item) return item
+              const item = subSub.items.find((i) => i.id === itemId);
+              if (item) return item;
             }
           }
         }
       }
     }
   }
-  return null
+  return null;
 }
 
 function showError(message) {
   document.getElementById("category-content").innerHTML = `
-        <div style="text-align: center; padding: 40px; color: #666;">
-            <p>${message}</p>
-        </div>
-    `
+    <div style="text-align: center; padding: 40px; color: #666;">
+      <p>${message}</p>
+    </div>
+  `;
 }
+
+function loadFontAwesome() {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css';
+  document.head.appendChild(link);
+}
+
+// Global exports
+window.navigateCarousel = navigateCarousel;
+window.goToCarouselItem = goToCarouselItem;

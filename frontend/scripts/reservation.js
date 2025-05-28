@@ -58,36 +58,32 @@ function processReservation(paymentMethod) {
         return;
     }
 
+    // Get existing reservation data (including amount)
+    const existingData = JSON.parse(localStorage.getItem('current-reservation')) || {};
+    
     const reservation = {
+        ...existingData, // This includes the amount from mytray
         name: formData.name,
         phone: formData.phone,
         date: formData.date,
         time: formData.arrivaltime,
         guests: formData.noofguests,
-        mpesa: formData.mpesanumber,
         paymentMethod: paymentMethod,
         createdAt: new Date().toISOString()
     };
 
-    // Save to localStorage
-    const reservations = JSON.parse(localStorage.getItem('wadau-reservations')) || [];
-    reservations.push(reservation);
-    localStorage.setItem('wadau-reservations', JSON.stringify(reservations));
+    // Save to localStorage temporarily
+    localStorage.setItem('current-reservation', JSON.stringify(reservation));
 
-    // Show loading state
-    const payButton = paymentMethod === 'Pay Now' 
-        ? document.querySelector('.paynow') 
-        : document.querySelector('.paylater');
-    
-    if (payButton) {
-        payButton.classList.add('loading');
-        payButton.disabled = true;
-    }
-
-    // Simulate processing delay
-    setTimeout(() => {
+    if (paymentMethod === 'Pay Now') {
+        window.location.href = 'payment.html';
+    } else {
+        // For "Pay on Arrival", save directly
+        const reservations = JSON.parse(localStorage.getItem('wadau-reservations')) || [];
+        reservations.push(reservation);
+        localStorage.setItem('wadau-reservations', JSON.stringify(reservations));
         window.location.href = 'subscription.html';
-    }, 1500);
+    }
 }
 
 function setupFormValidation() {
@@ -114,17 +110,11 @@ function setupFormValidation() {
 
     // Special validation for phone numbers
     const phoneInput = document.querySelector('input[placeholder="Phone"]');
-    const mpesaInput = document.querySelector('input[placeholder="M Pesa number"]');
     
     if (phoneInput) {
         phoneInput.addEventListener('input', function() {
-            this.value = this.value.replace(/[^0-9]/g, '');
-        });
-    }
-    
-    if (mpesaInput) {
-        mpesaInput.addEventListener('input', function() {
-            this.value = this.value.replace(/[^0-9]/g, '');
+            // Allows numbers and + character
+            this.value = this.value.replace(/[^0-9+]/g, '');
         });
     }
 }

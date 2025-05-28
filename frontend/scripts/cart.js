@@ -23,15 +23,18 @@ window.cart = {
     const item = this.items.find((i) => i.id === itemId)
     if (item) {
       item.quantity = newQuantity
-      this.saveToStorage()
       this.dispatchUpdate()
     }
-  },
 
-  getTotal: function () {
-    return this.items.reduce((total, item) => total + item.price * item.quantity, 0)
+    return this.items.reduce((total, item) => {
+        return total + (item.price * item.quantity);
+    }, 0);
   },
-
+  getTotal() {
+      return this.items.reduce((total, item) => {
+          return total + (item.price * item.quantity);
+      }, 0);
+  },
   getItemCount: function () {
     return this.items.reduce((count, item) => count + item.quantity, 0)
   },
@@ -43,6 +46,11 @@ window.cart = {
   dispatchUpdate: () => {
     window.dispatchEvent(new Event("cartUpdated"))
   },
+  clearCart() {
+    this.items = [];
+    this.saveCart();
+    this.updateCartDisplay();
+},
 }
 
 console.log("Cart initialized with", window.cart.items.length, "items")

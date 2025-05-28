@@ -93,31 +93,3 @@ function saveSubscriberInfo(name) {
         console.error("Error saving subscriber info:", e);
     }
 }
-
-function displayReservationSummary() {
-    try {
-        const reservation = JSON.parse(localStorage.getItem('current-reservation'));
-        if (!reservation) return;
-        
-        const summaryContainer = document.getElementById('reservation-summary');
-        if (summaryContainer) {
-            summaryContainer.innerHTML = `
-                <div class="reservation-detail">
-                    <h3>Your Reservation Details</h3>
-                    <p><strong>Date:</strong> ${formatDate(reservation.date)}</p>
-                    <p><strong>Time:</strong> ${reservation.time}</p>
-                    <p><strong>Guests:</strong> ${reservation.guests}</p>
-                    <p><strong>Payment Method:</strong> ${reservation.paymentMethod}</p>
-                </div>
-            `;
-        }
-    } catch (e) {
-        console.error("Error displaying reservation summary:", e);
-    }
-}
-
-function formatDate(dateString) {
-    if (!dateString) return '';
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString('en-US', options);
-}
