@@ -3,171 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Payment - Wadau Experience</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="reservation.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        .checkout-container {
-            display: flex;
-            min-height: 100vh;
-            width: 100%;
-        }
-        
-        .checkout-left {
-            flex: 1;
-            background: url("../frontend/images/hotel.png") center center no-repeat;
-            background-size: cover;
-        }
-        
-        .payment-container {
-            position: relative;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: #fff;
-            padding-top: 20px;
-        }
-        
-        .header-buttons {
-            padding-top: 20px;
-            position: absolute;
-            top: 20px;
-            width: 100%;
-            max-width: 80%;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 20px;
-            box-sizing: border-box;
-        }
-        
-        .back-button, .cancel-button {
-            display: flex;
-            align-items: center;
-            color: #000;
-            text-decoration: none;
-            font-size: 18px;
-            cursor: pointer;
-        }
-        .icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-        }
-        .back-button img, .cancel-button img {
-            margin-right: 5px;
-        }
-        
-        .payment-content {
-            width: 100%;
-            max-width: 70%;
-            margin-top: 80px;
-        }
-        .payment-content h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 32px;
-            margin: 0 0 10px;
-            font-weight: normal;
-        }
-        .payment-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .checkout-decorative-image {
-            max-width: 500px;
-            margin: 0 auto 30px;
-            display: block;
-        }
-        
-        .payment-select {
-            width: 100%;
-            margin-bottom: 30px;
-        }
-        
-        .payment-select select {
-            width: 100%;
-            padding: 12px;
-            border-radius: 5px;
-            font-size: 16px;
-            background-color: rgba(155, 154, 154, 0.2);
-            border: none;
-        }
-        
-        .payment-form {
-            display: none;
-            width: 100%;
-        }
-        
-        .payment-form.active {
-            display: block;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            background-color: rgba(155, 154, 154, 0.2);
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        
-        .row {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .row .form-group {
-            flex: 1;
-        }
-        
-        .pay-button {
-            width: 100%;
-            padding: 14px;
-            background-color: #000;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-        
-        @media (max-width: 768px) {
-            .checkout-container {
-                flex-direction: column;
-            }
-            
-            .checkout-left {
-                height: 200px;
-            }
-            
-            .payment-content {
-                margin-top: 60px;
-            }
-            
-            .header-buttons {
-                padding: 0 10px;
-            }
-        }
-    </style>
 </head>
 <body>
 <div class="checkout-container">
@@ -202,7 +43,6 @@
             <!-- M-Pesa Payment Form -->
             <form id="mpesa-form" class="payment-form active">
                 <div class="form-group">
-                    <label for="mpesa-phone">Phone Number</label>
                     <input type="text" id="mpesa-phone" class="form-control" placeholder="e.g. 254712345678">
                 </div>
                 <button type="button" class="pay-button" id="mpesa-pay-button">Pay Now</button>
@@ -219,7 +59,6 @@
                 </div>
                 <div class="row">
                     <div class="form-group">
-                        <label for="card-expiry-month">Month</label>
                         <select id="card-expiry-month" class="form-control">
                             <option value="">Month</option>
                             <option value="01">01</option>
@@ -237,10 +76,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="card-expiry-year">Year</label>
                         <select id="card-expiry-year" class="form-control">
                             <option value="">Year</option>
-                            <!-- Generate next 10 years -->
                             <script>
                                 const currentYear = new Date().getFullYear();
                                 for (let i = 0; i < 10; i++) {
@@ -262,30 +99,24 @@
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Get reservation data from localStorage
     const reservation = JSON.parse(localStorage.getItem('current-reservation'));
     if (reservation) {
         document.getElementById('card-amount').value = `Ksh ${reservation.amount || '0.00'}`;
     }
     
-    // Payment method selection
     const paymentSelect = document.getElementById('payment-method-select');
     paymentSelect.addEventListener('change', function() {
-        // Hide all forms
         document.querySelectorAll('.payment-form').forEach(form => {
             form.classList.remove('active');
         });
         
-        // Show selected form
         const methodType = this.value;
         document.getElementById(`${methodType}-form`).classList.add('active');
     });
     
-    // Input formatting
     const cardNumberInput = document.getElementById('card-number');
     if (cardNumberInput) {
         cardNumberInput.addEventListener('input', function(e) {
-            // Format card number with spaces every 4 digits
             let value = this.value.replace(/\s+/g, '').replace(/[^0-9]/g, '');
             if (value.length > 0) {
                 value = value.match(new RegExp('.{1,4}', 'g')).join(' ');
@@ -297,7 +128,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const cvvInput = document.getElementById('card-cvv');
     if (cvvInput) {
         cvvInput.addEventListener('input', function(e) {
-            // Limit to 3-4 digits
             this.value = this.value.replace(/[^0-9]/g, '').substring(0, 4);
         });
     }
@@ -305,12 +135,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const mpesaInput = document.getElementById('mpesa-phone');
     if (mpesaInput) {
         mpesaInput.addEventListener('input', function() {
-            // Allows numbers and + character
             this.value = this.value.replace(/[^0-9+]/g, '');
         });
     }
     
-    // Button event listeners
     document.getElementById('back-button').addEventListener('click', goBack);
     document.getElementById('cancel-button').addEventListener('click', goBack);
     document.getElementById('mpesa-pay-button').addEventListener('click', () => processPayment('mpesa'));
@@ -320,10 +148,10 @@ document.addEventListener('DOMContentLoaded', function() {
 function goBack() {
     window.history.back();
 }
+
 function processPayment(method) {
     const reservation = JSON.parse(localStorage.getItem('current-reservation')) || {};
 
-    // Validate payment details
     if (method === 'mpesa') {
         const phone = document.getElementById('mpesa-phone').value.trim();
         if (!phone) {
@@ -354,55 +182,33 @@ function processPayment(method) {
         reservation.cardExpiry = `${expiryMonth}/${expiryYear}`;
     }
     
-    // Update reservation data
     localStorage.setItem('current-reservation', JSON.stringify(reservation));
     
-    // Show processing state
     const button = document.getElementById(`${method}-pay-button`);
     if (button) {
         button.disabled = true;
         button.textContent = 'Processing...';
     }
     
-    // Process payment
     setTimeout(() => {
         try {
-            console.log("Starting payment processing..."); // Debug log
-            
-            // 1. Get current reservation data
             const reservation = JSON.parse(localStorage.getItem('current-reservation')) || {};
-            console.log("Current reservation:", reservation); // Debug log
             
-            // 2. Save to reservations
             const reservations = JSON.parse(localStorage.getItem('wadau-reservations')) || [];
             reservations.push(reservation);
             localStorage.setItem('wadau-reservations', JSON.stringify(reservations));
-            console.log("Reservation saved"); // Debug log
             
-            // 3. Clear the cart - THIS IS THE CRUCIAL PART
             if (window.cart) {
-                console.log("Cart object found, clearing..."); // Debug log
                 window.cart.clearCart();
-                
-                // Verify clearing worked
                 const currentCart = JSON.parse(localStorage.getItem("wadau-cart") || "[]");
-                console.log("Cart after clearing:", currentCart); // Debug log
-                
                 if (currentCart.length > 0) {
                     throw new Error("Cart didn't clear properly");
                 }
             } else {
-                console.warn("Cart object not found in window"); // Debug log
-                // Fallback: manually clear localStorage
                 localStorage.setItem("wadau-cart", "[]");
             }
             
-            // 4. Clean up temporary data
             localStorage.removeItem('current-reservation');
-            console.log("Temporary data cleared"); // Debug log
-            
-            // 5. Redirect to confirmation
-            console.log("Redirecting to subscription page..."); // Debug log
             window.location.href = 'subscription.html';
             
         } catch (error) {
@@ -415,6 +221,40 @@ function processPayment(method) {
         }
     }, 2000);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  let lastScrollTop = 0;
+  const buttons = document.querySelectorAll('.back, .back-button, .checkout-cancel-link, .cancel-button');
+
+  window.addEventListener('scroll', () => {
+    if (window.innerWidth > 768) {
+      // On desktop, always show buttons
+      buttons.forEach(btn => {
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+      });
+      return;
+    }
+
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (scrollTop > lastScrollTop) {
+      // Scrolling down - hide buttons
+      buttons.forEach(btn => {
+        btn.style.opacity = '0';
+        btn.style.pointerEvents = 'none';
+      });
+    } else {
+      // Scrolling up - show buttons
+      buttons.forEach(btn => {
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+      });
+    }
+
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+  });
+});
 </script>
 </body>
 </html>
