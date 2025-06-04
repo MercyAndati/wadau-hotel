@@ -80,25 +80,21 @@ let currentMobileItem = null;
  *********************/
 // Initialization
 function initializePage() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const categoryId = urlParams.get("category");
-    const subcategoryId = urlParams.get("subcategory");
-    const subSubcategoryId = urlParams.get("subsubcategory");
-    const showItemId = urlParams.get("showItem") || localStorage.getItem("showItemId");
+  const urlParams = new URLSearchParams(window.location.search);
+  const categoryId = urlParams.get("category");
+  const subcategoryId = urlParams.get("subcategory");
+  const subSubcategoryId = urlParams.get("subsubcategory");
+  const showItemId = urlParams.get("showItem");
 
-    // Clear stored ID immediately after reading
-    localStorage.removeItem("showItemId");
-
-    if (subSubcategoryId) {
-        loadSubSubcategoryItems(categoryId, subcategoryId, subSubcategoryId, showItemId);
-    } else if (subcategoryId) {
-        loadSubcategoryItems(categoryId, subcategoryId, showItemId);
-    } else if (categoryId) {
-        loadCategoryContent(categoryId, showItemId);
-    } else if (showItemId) {
-        // Fallback for direct item access
-        loadItemDirectly(showItemId);
-    }
+  if (subSubcategoryId) {
+    loadSubSubcategoryItems(categoryId, subcategoryId, subSubcategoryId, showItemId);
+  } else if (subcategoryId) {
+    loadSubcategoryItems(categoryId, subcategoryId, showItemId);
+  } else if (categoryId) {
+    loadCategoryContent(categoryId, showItemId);
+  } else if (showItemId) {
+    loadItemDirectly(showItemId);
+  }
 }
  document.addEventListener("DOMContentLoaded", () => {
   function checkMenuData() {
@@ -491,30 +487,53 @@ function createItemCard(item) {
 
 // Navigation
 function goBack() {
-  if (window.history.length > 1) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const categoryId = urlParams.get("category");
+  const subcategoryId = urlParams.get("subcategory");
+  const subSubcategoryId = urlParams.get("subsubcategory");
+
+  if (currentMobileItem && window.innerWidth <= 768) {
+    // Mobile item view - hide the item
+    hideMobileItem();
+    // Replace state to remove the item ID from URL
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.delete('showItem');
+    window.history.replaceState({}, '', currentUrl.toString());
+  } else if (window.innerWidth <= 768 && window.history.length > 1) {
+    // Mobile list view - regular back navigation
     window.history.back();
-  } else {
-    window.location.href = "index.html";
-  }
-}
-function navigateToPreviousPage(categoryId, subcategoryId, subSubcategoryId) {
-  if (subSubcategoryId) {
+  } else if (subSubcategoryId) {
+    // Desktop: Currently viewing subsubcategory - go back to subcategory
     window.location.href = `category.html?category=${categoryId}&subcategory=${subcategoryId}`;
   } else if (subcategoryId) {
+    // Desktop: Currently viewing subcategory - go back to category
     window.location.href = `category.html?category=${categoryId}`;
+  } else if (categoryId) {
+    // Desktop: Currently viewing category - go back to home
+    window.location.href = "index.html";
+  } else if (window.history.length > 1) {
+    // Fallback - regular back navigation
+    window.history.back();
   } else {
+    // No history - go to home
     window.location.href = "index.html";
   }
 }
+
  function goToMyTray() {
     window.location.href = "mytray.html"
 }
 
 function goToSubcategory(categoryId, subcategoryId) {
-  window.location.href = `category.html?category=${categoryId}&subcategory=${subcategoryId}`;
+  const newUrl = `category.html?category=${categoryId}&subcategory=${subcategoryId}`;
+  window.history.pushState({ categoryId, subcategoryId }, '', newUrl);
+  window.location.href = newUrl;
 }
+
 function goToSubSubcategory(categoryId, subcategoryId, subSubcategoryId) {
-  window.location.href = `category.html?category=${categoryId}&subcategory=${subcategoryId}&subsubcategory=${subSubcategoryId}`;
+  const newUrl = `category.html?category=${categoryId}&subcategory=${subcategoryId}&subsubcategory=${subSubcategoryId}`;
+  window.history.pushState({ categoryId, subcategoryId, subSubcategoryId }, '', newUrl);
+  window.location.href = newUrl;
 }
 
 // Carousel functionality
@@ -594,7 +613,10 @@ function showMobileItem(item) {
 
   if (window.innerWidth <= 768) {
     currentMobileItem = item
-
+    // Push a new state to the history
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('showItem', item.id);
+    window.history.pushState({ itemId: item.id }, '', currentUrl.toString());
     // Handle image display
     if (item.image) {
       mobileImg.src = item.image
@@ -629,10 +651,15 @@ function showMobileItem(item) {
   }
 }
 
- function hideMobileItem() {
-  document.getElementById("mobile-item-display").style.display = "none"
-  document.getElementById("category-content").style.display = "block"
-  currentMobileItem = null
+function hideMobileItem() {
+  document.getElementById("mobile-item-display").style.display = "none";
+  document.getElementById("category-content").style.display = "block";
+  currentMobileItem = null;
+  
+  // Update URL without adding to history
+  const currentUrl = new URL(window.location.href);
+  currentUrl.searchParams.delete('showItem');
+  window.history.replaceState({}, '', currentUrl.toString());
 }
 
 
@@ -691,7 +718,6 @@ function updateQuantity(itemId, change) {
     button.style.border = "2px solid black"
   }
 }
-
 
 // Helper functions
 function findCategory(categoryId) {
@@ -882,7 +908,24 @@ function initializePage() {
         loadItemDirectly(showItemId);
     }
 }
-
+window.addEventListener('popstate', (event) => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const showItemId = urlParams.get('showItem');
+  
+  if (showItemId && window.innerWidth <= 768) {
+    // Mobile: Show the item if we're going back to an item view
+    const item = findItemById(showItemId);
+    if (item) {
+      showMobileItem(item);
+    }
+  } else if (currentMobileItem) {
+    // Mobile: Hide the item if we're going back to the list view
+    hideMobileItem();
+  } else {
+    // Desktop: Reload the page to show the correct level
+    initializePage();
+  }
+});
 // Window events
 // Handle window resize
 window.addEventListener("resize", () => {
