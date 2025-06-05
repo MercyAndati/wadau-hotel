@@ -61,20 +61,21 @@ function initializePage() {
 }
 
 function goToMyTray() {
-  navigateTo("mytray.html");
+  navigateTo("/mytray/");
 }
 
 function goToThisWeekSpecial() {
-  navigateTo("category.html?category=main-course&subcategory=mbuzi-choma");
+  navigateTo("/category/?category=main-course&subcategory=mbuzi-choma");
 }
 
 function goToCategory(categoryId) {
-  navigateTo(`category.html?category=${categoryId}`);
+  navigateTo(`/category/?category=${categoryId}`);
 }
 
 function navigateTo(url) {
   window.location.href = url;
 }
+
 
 function updateCartIndicator() {
   const trayButton = document.querySelector(".tray span");

@@ -506,16 +506,20 @@ function navigateToPreviousPage(categoryId, subcategoryId, subSubcategoryId) {
     window.location.href = "index.html";
   }
 }
- function goToMyTray() {
-    window.location.href = "mytray.html"
+function goToMyTray() {
+  window.location.href = "/mytray/";
 }
 
 function goToSubcategory(categoryId, subcategoryId) {
-  window.location.href = `category.html?category=${categoryId}&subcategory=${subcategoryId}`;
+  window.location.href = `/category/?category=${categoryId}&subcategory=${subcategoryId}`;
 }
+
 function goToSubSubcategory(categoryId, subcategoryId, subSubcategoryId) {
-  window.location.href = `category.html?category=${categoryId}&subcategory=${subcategoryId}&subsubcategory=${subSubcategoryId}`;
+  window.location.href = `/category/?category=${categoryId}&subcategory=${subcategoryId}&subsubcategory=${subSubcategoryId}`;
+  
 }
+
+
 
 // Carousel functionality
 function navigateCarousel(direction) {

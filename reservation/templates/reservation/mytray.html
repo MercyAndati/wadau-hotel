@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>My Tray - Wadau Experience</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{% static 'reservation/css/styles.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -54,9 +55,10 @@
         <div id="tray-items"></div>
     </main>
 
-    <script src="scripts/cart.js"></script>
-    <script src="scripts/mytray.js"></script>
-    <script src="scripts/category-page.js"></script>
-    <script src="scripts/menu-data.js"></script>
+    <script src="{% static 'reservation/js/cart.js' %}"></script>
+    <script src="{% static 'reservation/js/mytray.js' %}"></script>
+    <script src="{% static 'reservation/js/category-page.js' %}"></script>
+    <script src="{% static 'reservation/js/menu-data.js' %}"></script>
 </body>
 </html>
+
