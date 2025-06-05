@@ -16,7 +16,7 @@ const menuData = {
           description:
             "Consists of sizeable portions of beef, goat and chicken. Accompanied by pilau, rice, biryani rice, greens, garden salad, kachumbari, avocado and fried egg.",
           price: 3000,
-          image: "images/goatImage.png",
+          image: "/static/reservation/images/goatImage.png",
         },
         {
           id: "beef-platter",
@@ -24,7 +24,7 @@ const menuData = {
           description:
             "Consists of sizeable portions of beef, goat and kienyeji chicken. Accompaled by ugali and kachumbari.",
           price: 3000,
-          image: "images/goatImage.png",
+          image: "/static/reservation/images/goatImage.png",
         },
       ],
     },
@@ -35,7 +35,7 @@ const menuData = {
         {
           id: "mbuzi-choma",
           name: "Mbuzi Choma",
-          image: "images/goatImage.png",
+          image: "/static/reservation/images/goatImage.png",
           description:
             "Tender, juicy goat marinated in select spices and grilled to perfection. Can be served with with traditional sides like kachumbari, ugali, roast potatoes or fries (sides are priced separately).",
           items: [
@@ -64,7 +64,7 @@ const menuData = {
         {
           id: "wadau-kuku",
           name: "Wadau Kuku Kienyeji",
-          image: "images/goatImage.png",
+          image: "/static/reservation/images/goatImage.png",
           description:
             "Juicy kienyeji chicken, marinated in select spices and pan fried to a crispy perfection. Accompaniments sold separately",
           items: [
@@ -83,7 +83,7 @@ const menuData = {
         {
           id: "fried-delight",
           name: "Wadau's Fried Delight",
-          image: "images/goatImage.png",
+          image: "/static/reservation/images/goatImage.png",
           description:
             "Experience the rich, savoury flavours of Wadau's pan-fried beef or goat meat, marinated in a select blend of spices and cooked to a crispy perfection.",
           items: [
@@ -102,7 +102,7 @@ const menuData = {
         {
           id: "Swahili-dishes",
           name: "Swahili-dishes",
-          image: "images/goatImage.png",
+          image: "/static/reservation/images/goatImage.png",
           description:
             "Enjoy the rich aromatic flavours of traditional Swahili dishes. From coconut-infused pilau to tender biryani, each dish is prepared with a unique blend of spices and fresh ingredients capturing the vibrant taste of the coastal Kenya.",
           items: [
@@ -126,7 +126,7 @@ const menuData = {
         {
           id: "sides",
           name: "Sides",
-          image: "images/goatImage.png",
+          image: "/static/reservation/images/goatImage.png",
           description:
             "The perfect complement to any main dish, our selection of sides adds flavor and variety to your meal. From crispy fries and fresh salads to buttery vegetables and savory rice, there's something for everyone to enjoy.",
           items: [
@@ -179,7 +179,7 @@ const menuData = {
           description:
             "Picture a perfectly seasoned beef patty nestled in a fresh bun topped with crisp lettuce, ripe tomatoes, and creamy cheese. Served with crispy fries and fresh garden salad, this burger offers a complete and satisyling meal.",
           price: 1000,
-          image: "images/burgers.jpg",
+          image: "/static/reservation/images/burgers.jpg",
         },
         {
           id: "samosas",
@@ -187,7 +187,7 @@ const menuData = {
           description:
             "Crispy, savory pastries filled with a flavorful blend of ingredients, perfectly spiced and fried to a golden crunch. A delicious snack or appetizer, served with a dipping sauce.",
           price: 350,
-          image: "images/samosa.jpg",
+          image: "/static/reservation/images/samosa.jpg",
         },
         {
           id: "sausages",
@@ -195,21 +195,21 @@ const menuData = {
           description:
             "Juicy and flavorful, our sausages are cooked to perfection, offering a satisfying bite every time. Enjoy them on their own or paired with your favorite sides.",
           price: 200,
-          image: "images/sausages.jpg",
+          image: "/static/reservation/images/sausages.jpg",
         },
       ],
     },
     {
       id: "beverages",
       name: "Beverages",
-      image: "images/juice.png",
+      image: "/static/reservation/images/juice.png",
       description:
         "Quench your thirst with our selection of refreshing beverages. From non-alcoholic drinks to a variety of alcoholic options, we have something for everyone. Enjoy seasonal fruit juices, soft drinks, and a wide range of spirits including beer, gin, whiskey, and more.",
       subcategories: [
         {
           id: "non-alcoholic",
           name: "Non-Alcoholic",
-          image: "images/juice.png",
+          image: "/static/reservation/images/juice.png",
           description:
             "A rich and smooth spirit distilled from sugarcane, offering a range of flavors from sweet and light to dark and robust. Perfect for cocktails, neat sipping, or mixing with your favorite drinks.",
           items: [
@@ -235,12 +235,12 @@ const menuData = {
           name: "Alcoholic",
           description:
             "Explore a premium select selection of whiskeys, gins, rums, tequilas, cognacs, vodkas, and more. Whether you prefer a smooth sip, a bold a bold cocktail, or a sparkling toast, our curated collection offers something for every taste. Cheers!",
-          image: "images/beerImage.png",
+          image: "/static/reservation/images/beerImage.png",
           subcategories: [
             {
               id: "beer",
               name: "Beers",
-              image: "images/beerImage.png",
+              image: "/static/reservation/images/beerImage.png",
               description:
                 "Enjoy a refreshing selection of local and international beers, perfect for any occasion. Whether you prefer a crisp lager, a smooth ale, or a rich stout, our collection offers something to suit every taste. Cheers!",
               items: [
@@ -259,7 +259,7 @@ const menuData = {
             {
               id: "brandy",
               name: "Brandy",
-              image: "images/brandy.jpg",
+              image: "/static/reservation/images/brandy.jpg",
               description:
                 "A timeless spirit known for its smooth, rich flavor and warm finish. Perfect for sipping neat, on the rocks, or as a base for classic cocktails. Enjoy the depth and elegance of our carefully selected brandies",
               items: [
@@ -278,7 +278,7 @@ const menuData = {
             {
               id: "cognac",
               name: "Cognac",
-              image: "images/cognac.png",
+              image: "/static/reservation/images/cognac.png",
               description:
                 "A premium and retined brandy from France, known for its rich, smooth, and complex flavors. Perfect for sipping neat, on the rocks, or as a luxurious cocktail base. Experience elegance in every sip",
               items: [
@@ -317,7 +317,7 @@ const menuData = {
             {
               id: "gin",
               name: "Gin",
-              image: "images/cognac.png",
+              image: "/static/reservation/images/cognac.png",
               description:
                 "A versatile and aromatic spirit, crafted with botanicals for a refreshing and distinct flavor. Perfect for classic cocktails like gin & tonic or martinis, or enjoyed neat for a crisp, smooth experience.",
               items: [
@@ -366,7 +366,7 @@ const menuData = {
             {
               id: "liqueurs",
               name: "Liqueurs",
-              image: "images/rum.png",
+              image: "/static/reservation/images/rum.png",
               description:
                 "Sweet, flavorful spirits infused with fruits, herbs, or spices, perfect for sipping, mixing in cocktails, or adding a rich twist to desserts. Smooth, indulgent, and versatile for any occasion.",
               items: [
@@ -400,7 +400,7 @@ const menuData = {
             {
               id: "rum",
               name: "Rum",
-              image: "images/rum.png",
+              image: "/static/reservation/images/rum.png",
               description:
                 "A rich and smooth spirit distilled from sugarcane, offering a range of flavors from sweet and light to dark and robust. Perfect for cocktails, neat sipping, or mixing with your favorite drinks.",
               items: [
@@ -419,7 +419,7 @@ const menuData = {
             {
               id: "sparkling-wines",
               name: "Sparkling Wines & Champagne",
-              image: "images/rum.png",
+              image: "/static/reservation/images/rum.png",
               description:
                 "Elegant and effervescent, perfect for celebrations or casual toasts. From crisp Prosecco to luxurious Champagne, our selection offers refreshing bubbles with bright, fruity, and refined flavors.",
               items: [
@@ -453,7 +453,7 @@ const menuData = {
             {
               id: "tequila",
               name: "Tequila",
-              image: "images/rum.png",
+              image: "/static/reservation/images/rum.png",
               description:
                 "A bold and vibrant spirit made from blue agave, known for its smooth yet fiery character. Enjoy it neat, in classic cocktails like margaritas, or as a lively shot with salt and lime.",
               items: [
@@ -477,7 +477,7 @@ const menuData = {
             {
               id: "vodka",
               name: "Vodka",
-              image: "images/vodka.jpg",
+              image: "/static/reservation/images/vodka.jpg",
               description:
                 "A bold and vibrant spirit made from blue agave, known for its smooth yet fiery character. Enjoy it neat, in classic cocktails like margaritas, or as a lively shot with salt and lime.",
               items: [
@@ -501,7 +501,7 @@ const menuData = {
             {
               id: "whiskey",
               name: "Whiskey",
-              image: "images/vodka.jpg",
+              image: "/static/reservation/images/vodka.jpg",
               description:
                 "A timeless and versatile spirit, carefully aged to develop deep, rich flavors ranging from smooth and sweet to bold and smoky. Enjoy it neat, on the rocks, or in classic cocktails, perfectly curated for a premium experience at our restaurant.",
               items: [
@@ -634,7 +634,7 @@ const menuData = {
               description:
                 "A rich and smooth spirit distilled from sugarcane, offering a range of flavors from sweet and light to dark and robust. Perfect for cocktails, neat sipping, or mixing with your favorite drinks.",
               price: 200,
-              image: "images/water.png",
+              image: "/static/reservation/images/water.png",
             },
           ],
         },

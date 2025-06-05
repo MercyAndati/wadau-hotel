@@ -91,7 +91,7 @@ function goBack() {
         window.history.back();
     } else {
         // Fallback to home if no history
-        navigateTo("index.html");
+        navigateTo("/");
     }
 }
 document.addEventListener("DOMContentLoaded", initializePage);

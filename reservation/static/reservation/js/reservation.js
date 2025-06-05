@@ -49,7 +49,7 @@ function processReservation(paymentMethod) {
 
   localStorage.setItem("current-reservation", JSON.stringify(reservation))
 
-  window.location.href = paymentMethod === "Pay Now" ? "payment.html" : "subscription.html"
+  window.location.href = paymentMethod === "Pay Now" ? "/payment/" : "/subscription/"
 }
 
 function setupFormValidation() {

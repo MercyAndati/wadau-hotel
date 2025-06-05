@@ -1,59 +1,6 @@
 /*********************
  * GLOBAL DECLARATIONS
  *********************/
-// Cart system
-window.cart = {
-  items: JSON.parse(localStorage.getItem("wadau-cart") || "[]"),
-
-  addItem: function (id, quantity, price, name, image) {
-    const existingItem = this.items.find((item) => item.id === id)
-    if (existingItem) {
-      existingItem.quantity += quantity
-    } else {
-      this.items.push({ id, quantity, price, name, image })
-    }
-    this.saveToStorage()
-    this.dispatchUpdate()
-  },
-
-  removeItem: function (id) {
-    this.items = this.items.filter((item) => item.id !== id)
-    this.saveToStorage()
-    this.dispatchUpdate()
-  },
-
-  updateQuantity: function (itemId, newQuantity) {
-    const item = this.items.find((i) => i.id === itemId)
-    if (item) {
-      item.quantity = newQuantity
-      this.saveToStorage()
-      this.dispatchUpdate()
-    }
-  },
-
-  getTotal: function () {
-    return this.items.reduce((total, item) => total + item.price * item.quantity, 0)
-  },
-
-  getItemCount: function () {
-    return this.items.reduce((count, item) => count + item.quantity, 0)
-  },
-
-  saveToStorage: function () {
-    localStorage.setItem("wadau-cart", JSON.stringify(this.items))
-  },
-
-  dispatchUpdate: () => {
-    window.dispatchEvent(new Event("cartUpdated"))
-  },
-
-  clearCart: function () {
-    this.items = []
-    this.saveToStorage()
-    this.dispatchUpdate()
-  },
-}
-
 // Special items configuration
 window.SPECIAL_ITEMS = {
   "main-course": {
@@ -100,29 +47,30 @@ function initializePage() {
         loadItemDirectly(showItemId);
     }
 }
- document.addEventListener("DOMContentLoaded", () => {
-  function checkMenuData() {
-    if (window.menuData && window.menuData.categories) {
-      initializePage()
-      return true
-    }
-    return false
-  }
 
-  if (!checkMenuData()) {
-    let attempts = 0
-    const maxAttempts = 30
-    const interval = setInterval(() => {
-      attempts++
-      if (checkMenuData() || attempts >= maxAttempts) {
-        clearInterval(interval)
-        if (attempts >= maxAttempts) {
-          showError("Menu data failed to load. Please refresh the page.")
+document.addEventListener("DOMContentLoaded", () => {
+    function checkMenuData() {
+        if (window.menuData && window.menuData.categories) {
+            initializePage();
+            return true;
         }
-      }
-    }, 100)
-  }
-})
+        return false;
+    }
+
+    if (!checkMenuData()) {
+        let attempts = 0;
+        const maxAttempts = 30;
+        const interval = setInterval(() => {
+            attempts++;
+            if (checkMenuData() || attempts >= maxAttempts) {
+                clearInterval(interval);
+                if (attempts >= maxAttempts) {
+                    showError("Menu data failed to load. Please refresh the page.");
+                }
+            }
+        }, 100);
+    }
+});
 
 function loadItemDirectly(itemId) {
     const item = findItemById(itemId);
@@ -491,35 +439,30 @@ function createItemCard(item) {
 
 // Navigation
 function goBack() {
-  if (window.history.length > 1) {
-    window.history.back();
-  } else {
-    window.location.href = "index.html";
-  }
+  window.history.back();
 }
+
 function navigateToPreviousPage(categoryId, subcategoryId, subSubcategoryId) {
-  if (subSubcategoryId) {
-    window.location.href = `category.html?category=${categoryId}&subcategory=${subcategoryId}`;
-  } else if (subcategoryId) {
-    window.location.href = `category.html?category=${categoryId}`;
-  } else {
-    window.location.href = "index.html";
-  }
+    if (subSubcategoryId) {
+        window.location.href = `/category/?category=${categoryId}&subcategory=${subcategoryId}`;
+    } else if (subcategoryId) {
+        window.location.href = `/category/?category=${categoryId}`;
+    } else {
+        window.location.href = "/";
+    }
 }
+
 function goToMyTray() {
-  window.location.href = "/mytray/";
+    window.location.href = "/mytray/";
 }
 
 function goToSubcategory(categoryId, subcategoryId) {
-  window.location.href = `/category/?category=${categoryId}&subcategory=${subcategoryId}`;
+    window.location.href = `/category/?category=${categoryId}&subcategory=${subcategoryId}`;
 }
 
 function goToSubSubcategory(categoryId, subcategoryId, subSubcategoryId) {
-  window.location.href = `/category/?category=${categoryId}&subcategory=${subcategoryId}&subsubcategory=${subSubcategoryId}`;
-  
+    window.location.href = `/category/?category=${categoryId}&subcategory=${subcategoryId}&subsubcategory=${subSubcategoryId}`;
 }
-
-
 
 // Carousel functionality
 function navigateCarousel(direction) {

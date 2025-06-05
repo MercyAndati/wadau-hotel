@@ -44,7 +44,7 @@ function setupTrayPage() {
       })
     );
 
-    window.location.href = "reservation.html";
+    window.location.href = "/payment/";
   };
 
   if (checkoutButton) checkoutButton.addEventListener("click", handleCheckout);
@@ -54,7 +54,7 @@ function setupTrayPage() {
 }
 
 function goBack() {
-  window.location.href = "index.html";
+  window.history.back();
 }
 
 function renderTrayItems() {
@@ -143,7 +143,7 @@ function handleTrayItemClick(itemId) {
   localStorage.setItem("showItemId", itemId);
   
   // Build the URL with the correct category path
-  let url = "category.html?";
+  let url = "/category/?";
   
   if (categoryPath.subSubcategoryId) {
     url += `category=${categoryPath.categoryId}&subcategory=${categoryPath.subcategoryId}&subsubcategory=${categoryPath.subSubcategoryId}`;

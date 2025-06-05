@@ -44,7 +44,7 @@ function setupHomeButton() {
       window.cart.items = []
       window.cart.saveToStorage()
     }
-    window.location.href = "index.html"
+    window.location.href = "/";
   })
 }
 
@@ -84,4 +84,8 @@ function verifyCartEmpty() {
     console.error("Cart was not cleared properly!")
     localStorage.setItem("wadau-cart", "[]")
   }
+}
+
+function goBack() {
+  window.history.back();
 }

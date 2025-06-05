@@ -1,12 +1,18 @@
 from django.shortcuts import render
+from django.http import Http404
 
 def index(request):
     return render(request, 'reservation/index.html')
 
 def category(request):
+    # Get query parameters
     category = request.GET.get('category')
     subcategory = request.GET.get('subcategory')
     subsubcategory = request.GET.get('subsubcategory')
+
+    # If no category is provided, redirect to home
+    if not category:
+        return render(request, 'reservation/index.html')
 
     context = {
         'category': category,

@@ -15,11 +15,11 @@
     <div class="second-header">
         <header>
             <span class="back" id="back-button">
-                <img src="images/left-arrow.png" alt="Back" class="icon"> back
+                <img src="{% static 'reservation/images/left-arrow.png' %}" alt="Back" class="icon"> back
             </span>
             <div class="tray" onclick="goToMyTray()">
                 <span>My Tray</span>
-                <img src="images/love-food-offer.png" alt="Tray" class="icon">
+                <img src="{% static 'reservation/images/love-food-offer.png' %}" alt="Tray" class="icon">
             </div>
         </header>
     </div>
@@ -30,7 +30,7 @@
         <!-- Mobile Item Display Template -->
         <div class="mobile-item-container" id="mobile-item-display" style="display: none;">
             <div class="mobile-item-image-container">
-                <img src="/placeholder.svg" alt="Item" class="mobile-item-image" id="mobile-item-img" style="display: none;">
+                <img src="{% static 'reservation/images/placeholder.svg' %}" alt="Item" class="mobile-item-image" id="mobile-item-img" style="display: none;">
                 <div class="mobile-item-placeholder" id="mobile-item-placeholder">
                     Item Image
                 </div>
@@ -44,8 +44,6 @@
                 <p id="mobile-description-text">Item description will appear here...</p>
             </div>
             
-
-            
             <div class="mobile-counter">
                 <button class="mobile-counter-btn" id="mobile-decrease">-</button>
                 <span class="mobile-counter-value" id="mobile-quantity">1</span>
@@ -58,9 +56,19 @@
         </div>
     </main>
     
+    <!-- Load scripts in correct order -->
     <script src="{% static 'reservation/js/menu-data.js' %}"></script>
     <script src="{% static 'reservation/js/cart.js' %}"></script>
     <script src="{% static 'reservation/js/category-page.js' %}"></script>
+    <script>
+        // Error handling for script loading
+        window.addEventListener('error', function(e) {
+            if (e.target.tagName === 'SCRIPT') {
+                console.error('Script loading error:', e);
+                showError('Failed to load required resources. Please refresh the page.');
+            }
+        });
+    </script>
 </body>
 </html>
 
