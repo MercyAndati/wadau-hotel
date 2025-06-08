@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details - Wadau Experience</title>
+    <link rel="stylesheet" href="../frontend/styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="staff-container">
+        <!-- Order Header -->
+        <header class="order-header">
+            <div class="order-nav">
+                <a href="index.html" class="back-button">
+                    <img src="../frontend/images/left-arrow.png" alt="Back" class="icon">
+                </a>
+                <div class="staff-logo">
+                    <img src="../frontend/images/logo-wadau.svg" alt="Wadau logo" class="logo">
+                    <div class="wadau">Wadau Staff</div>
+                </div>
+            </div>
+            
+            <div class="order-actions">
+                <button id="cancel-order" class="staff-button">
+                    <i class="fas fa-trash-alt"></i> Cancel Order
+                </button>
+                <button id="add-items" class="staff-button">
+                    <img src="../frontend/images/love-food-offer.png" alt="Add items" class="icon"> Add Items
+                </button>
+            </div>
+        </header>
+        
+        <!-- Order Details -->
+        <section class="order-details">
+            <div id="order-info" class="order-info-container">
+                <!-- Will be filled by JavaScript -->
+            </div>
+        </section>
+        
+        <!-- Order Items -->
+        <section class="order-items">
+            <h2>Order Items</h2>
+            <div id="items-container">
+                <!-- Will be filled by JavaScript -->
+            </div>
+        </section>
+    </div>
+
+    <script src="scripts/order.js"></script>
+</body>
+</html>

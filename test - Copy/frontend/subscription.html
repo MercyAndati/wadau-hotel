@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Subscribe - Wadau Experience</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @media (max-width: 768px) {
+            .diamond-image-container {
+            width: 80%;
+            height: 40vh;
+            min-height: 250px;
+            background-image: url("images/hotel.png");
+            background-position: center;
+            align-self: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative; 
+            border-radius: 20px;
+            margin-top: 10px;
+            }
+            
+            .hotel2-image {
+                display: none;
+            }
+        
+            .subscription-container h2 {
+            font-size: 18px;
+            margin: 0 0 10px;
+            font-weight: normal;
+            margin-top: 40px;
+            position: absolute;
+            }
+            
+            .checkout-decorative-image {
+                max-width: 80%;
+                position: absolute;
+                margin-top: 90px;
+            }
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 20px;
+            }
+            header img{
+                width: 1px;
+                height: auto;
+            }
+            .home-button{
+                font-size: 10px;
+                padding: 7px 15px;
+                border: 2px solid #000;
+                border-radius: 15px;
+            }
+            .message-container {
+                margin-top: 70px;
+                text-align: center;
+            }
+            .message-container p {
+                font-size: 14px;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="images/logo-wadau.svg" alt="Wadau Logo" class="logo">
+        <button id="home-button" class="home-button"> Home</button>
+    </header>
+    <main class="subscription-container">
+        <h2>Wadau Experience Reservation</h2>
+        <img src="images/decorative.png" alt="Decorative swirl" class="checkout-decorative-image"/>
+        <div class="diamond-image-container">
+            <img src="images/hotel.png" alt="hotel" class="hotel2-image">
+        </div>
+        <div class="message-container">
+            <p id="welcome-message">Dear Guest, welcome to the Wadau Experience. We're looking forward to your arrival.</p>
+        </div>
+        <p class="contact-info">For inquiries, call 0722 861 224</p>
+        <label class="subscribe-label">
+            <input type="checkbox" id="subscribe-checkbox"> Subscribe to Wadau offers
+        </label>
+    </main>
+
+    <script src="scripts/subscription.js"></script>
+</body>
+</html>

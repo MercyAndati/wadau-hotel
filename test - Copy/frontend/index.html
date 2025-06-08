@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Wadau Experience</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header>
+            <img src="images/logo-wadau.svg" alt="Wadau logo" class="logo">
+            <div class="wadau">Wadau Experience</div>
+            <div class="tray" onclick="goToMyTray()">
+                <span>My Tray</span>
+                <img src="images/love-food-offer.png" alt="Tray">
+            </div>
+        </header>
+    
+        <!-- Desktop Special Section -->
+        <section class="special" id="special-section">
+            <!-- Content will be loaded dynamically from JavaScript -->
+        </section>
+
+        <!-- Mobile Special Section -->
+        <section class="mobile-special" id="mobile-special-section">
+        <!-- Content will be loaded dynamically from JavaScript -->
+        </section>
+
+        <!-- Full-Width Menu List -->
+        <nav class="menu-list">
+            <div class="menu-title">Our Menu</div>
+
+            <hr class="full-width-line">
+
+            <div class="menu-item" onclick="goToCategory('platters')">
+                <span>Platters</span>
+                <img src="images/right-arrow.png" alt="Arrow" class="menu-icon">
+            </div>
+            <hr class="full-width-line">
+
+            <div class="menu-item" onclick="goToCategory('main-course')">
+                <span>Main Course</span>
+                <img src="images/right-arrow.png" alt="Arrow" class="menu-icon">
+            </div>
+            <hr class="full-width-line">
+
+            <div class="menu-item" onclick="goToCategory('snacks')">
+                <span>Snacks</span>
+                <img src="images/right-arrow.png" alt="Arrow" class="menu-icon">
+            </div>
+            <hr class="full-width-line">
+
+            <div class="menu-item" onclick="goToCategory('beverages')">
+                <span>Beverages</span>
+                <img src="images/right-arrow.png" alt="Arrow" class="menu-icon">
+            </div>
+
+            <hr class="full-width-line">
+        </nav>
+    </div>
+    <div class="container">
+        <!-- Footer Section -->
+        <footer>
+            <a href="#">For inquiries call <span>0 722 861 224</span></a>
+        </footer>    
+    </div>
+
+    <script src="scripts/menu-data.js"></script>
+    <script src="scripts/cart.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>
